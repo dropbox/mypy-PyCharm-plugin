@@ -1,8 +1,12 @@
+![mypy logo](https://github.com/dropbox/mypy-PyCharm-plugin/blob/master/mypy-logo.png)
+
 # mypy-PyCharm-plugin
 
 The plugin provides a simple terminal to run fast mypy daemon
 from PyCharm with a single click or hotkey and easily navigate
 through type checking results.
+
+![mypy plugin screenshot](https://github.com/dropbox/mypy-PyCharm-plugin/blob/master/mypy-mypy.png)
 
 You can pin the terminal to either side of PyCharm window: click
 on window toolbar → Move. The current default is bottom, which
