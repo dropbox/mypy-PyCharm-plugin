@@ -4,7 +4,12 @@
 
 The plugin provides a simple terminal to run fast mypy daemon
 from PyCharm with a single click or hotkey and easily navigate
-through type checking results.
+through type checking results. The idea of the mypy terminal is
+different from the normal PyCharm type checking that highlights
+the errors in a current file. The mypy terminal shows errors in
+all files in your project (even in those not currently open).
+Also mypy provides a bit stricter type checking and is tunable
+by various flags and config settings.
 
 ![mypy plugin screenshot](https://github.com/dropbox/mypy-PyCharm-plugin/blob/master/mypy-mypy.png)
 
