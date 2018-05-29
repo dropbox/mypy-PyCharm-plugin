@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.dropbox.plugins.mypy_plugin.MypyTerminal">
+  <grid id="27dc6" binding="mypyToolWindowContent" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="0">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="1475" height="400"/>
+    </constraints>
+    <properties>
+      <focusable value="false"/>
+      <maximumSize width="-1" height="-1"/>
+      <preferredSize width="1475" height="120"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="424f5" class="javax.swing.JTextField" binding="mypyStatus">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="7" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="13"/>
+          </grid>
+        </constraints>
+        <properties>
+          <editable value="false"/>
+          <focusable value="false"/>
+          <font size="12"/>
+          <text value="(press Run or click Ctrl + Shift + M to check)"/>
+          <toolTipText value="Result of mypy type checking"/>
+        </properties>
+      </component>
+      <component id="94cc8" class="javax.swing.JButton" binding="mypyRun">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="60" height="13"/>
+          </grid>
+        </constraints>
+        <properties>
+          <focusPainted value="false"/>
+          <focusable value="false"/>
+          <text value="Run"/>
+        </properties>
+      </component>
+      <scrollpane id="66f28" binding="scroll">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="300" height="150"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="f47d" class="com.intellij.ui.components.JBList" binding="errorsList">
+            <constraints/>
+            <properties>
+              <focusable value="false"/>
+              <font name="Menlo" size="12"/>
+              <inheritsPopupMenu value="false"/>
+              <selectionBackground color="-10914645"/>
+              <selectionMode value="0"/>
+            </properties>
+            <clientProperties>
+              <List.isFileList class="java.lang.Boolean" value="false"/>
+            </clientProperties>
+          </component>
+        </children>
+      </scrollpane>
+    </children>
+  </grid>
+  <inspectionSuppressions>
+    <suppress inspection="NoLabelFor" id="66f28"/>
+  </inspectionSuppressions>
+</form>
