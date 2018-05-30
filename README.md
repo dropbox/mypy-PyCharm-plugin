@@ -21,6 +21,8 @@ by various flags and config settings.
 3. After restart you should find the plugin in View -> Tool windows
    -> Mypy terminal
 
+## Usage
+
 You can pin the terminal to either side of PyCharm window: click
 on window toolbar → Move. The current default is bottom, which
 works best if you typically have only a few errors. If you are
