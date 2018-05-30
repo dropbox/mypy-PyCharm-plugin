@@ -15,6 +15,8 @@ by various flags and config settings.
 
 ## Installation steps
 
+The plugin requires [mypy](https://github.com/python/mypy) to be installed.
+
 1. Download [mypy-plugin/mypy-plugin.jar](https://github.com/dropbox/mypy-PyCharm-plugin/blob/master/mypy-plugin/mypy-plugin.jar)
 2. In PyCharm go to Preferences -> Plugins -> Install plugins from disc
    -> Select downloaded file -> Restart PyCharm when prompted.
