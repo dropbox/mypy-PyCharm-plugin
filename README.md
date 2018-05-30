@@ -13,6 +13,14 @@ by various flags and config settings.
 
 ![mypy plugin screenshot](https://github.com/dropbox/mypy-PyCharm-plugin/blob/master/mypy-mypy.png)
 
+## Installation steps
+
+1. Download [mypy-plugin/mypy-plugin.jar](https://github.com/dropbox/mypy-PyCharm-plugin/blob/master/mypy-plugin/mypy-plugin.jar)
+2. In PyCharm go to Preferences -> Plugins -> Install plugins from disc
+   -> Select downloaded file -> Restart PyCharm when prompted.
+3. After restart you should find the plugin in View -> Tool windows
+   -> Mypy terminal
+
 You can pin the terminal to either side of PyCharm window: click
 on window toolbar → Move. The current default is bottom, which
 works best if you typically have only a few errors. If you are

@@ -191,7 +191,7 @@
     <option name="CUSTOM_FILTER" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1705" />
+    <option name="x" value="1704" />
     <option name="y" value="-145" />
     <option name="width" value="1680" />
     <option name="height" value="1023" />
@@ -371,7 +371,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1705" y="-145" width="1680" height="1023" extended-state="0" />
+    <frame x="1704" y="-145" width="1680" height="1023" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
