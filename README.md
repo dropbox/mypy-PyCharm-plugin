@@ -17,7 +17,7 @@ by various flags and config settings.
 
 The plugin requires [mypy](https://github.com/python/mypy) to be installed.
 
-1. Download [mypy-plugin/mypy-plugin.jar](https://github.com/dropbox/mypy-PyCharm-plugin/blob/master/mypy-plugin/mypy-plugin.jar)
+1. Download [mypy-plugin/mypy-plugin.jar](https://github.com/dropbox/mypy-PyCharm-plugin/blob/master/mypy-plugin/mypy-plugin.jar?raw=true)
 2. In PyCharm go to Preferences -> Plugins -> Install plugins from disc
    -> Select downloaded file -> Restart PyCharm when prompted.
 3. After restart you should find the plugin in View -> Tool windows
