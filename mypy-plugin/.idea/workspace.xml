@@ -51,7 +51,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/dropbox/plugins/mypy_plugin/MypyHelp.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="60">
-              <caret line="4" column="31" lean-forward="true" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
+              <caret line="4" column="31" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -60,7 +60,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/dropbox/plugins/mypy_plugin/MypyToolWindowFactory.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="150">
-              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+              <caret line="10" selection-start-line="10" selection-end-line="10" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -191,7 +191,7 @@
     <option name="CUSTOM_FILTER" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1704" />
+    <option name="x" value="1680" />
     <option name="y" value="-145" />
     <option name="width" value="1680" />
     <option name="height" value="1023" />
@@ -255,20 +255,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="mypy_plugin" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mypy-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mypy-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="mypy_plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="MypyHelp" type="e9f4de52:FormNode" />
-            </path>
-            <path>
-              <item name="mypy-plugin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mypy-plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="mypy_plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="MypyTerminal" type="e9f4de52:FormNode" />
             </path>
             <path>
               <item name="mypy-plugin" type="b2602c69:ProjectViewProjectNode" />
@@ -371,7 +357,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1704" y="-145" width="1680" height="1023" extended-state="0" />
+    <frame x="1680" y="-145" width="1680" height="1023" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -841,7 +827,7 @@
     <entry file="file://$PROJECT_DIR$/src/com/dropbox/plugins/mypy_plugin/MypyToolWindowFactory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -851,7 +837,7 @@
     <entry file="file://$PROJECT_DIR$/src/com/dropbox/plugins/mypy_plugin/MypyHelp.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
-          <caret line="4" column="31" lean-forward="true" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
+          <caret line="4" column="31" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
         </state>
       </provider>
     </entry>
