@@ -83,7 +83,9 @@ public class MypyRunner {
                 data = debug.toArray(data);
                 this.display.setListData(data);
                 int max = this.display.getModel().getSize();
-                this.display.scrollRectToVisible(this.display.getCellBounds(max - 1, max));
+                if (max > 0) {
+                    this.display.scrollRectToVisible(this.display.getCellBounds(max - 1, max));
+                }
             }
             process.waitFor();
         } catch (IOException | InterruptedException e) {
