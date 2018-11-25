@@ -4,9 +4,7 @@ import com.dropbox.plugins.mypy_plugin.model.MypyError;
 import com.dropbox.plugins.mypy_plugin.model.MypyResult;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.LogicalPosition;
-import com.intellij.openapi.editor.ScrollType;
+import com.intellij.openapi.editor.*;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.TextEditor;
@@ -92,49 +90,11 @@ public class MypyTerminal {
         }
     }
 
-    // This was replaced by global actions
-    /*
-    private void bindListAction(Action action, String keystroke, String tag) {
-        action.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(keystroke));
-        errorsList.getActionMap().put(tag, action);
-        errorsList.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
-                (KeyStroke) action.getValue(Action.ACCELERATOR_KEY), tag);
-    } */
-
     public void initUI(ToolWindow toolWindow) {
         errorsList.getEmptyText().setText("");
         errorsList.setListData(new MypyError[] {});
         runner = new MypyRunner(errorsList, project);
         rightIndex = 0;
-        // These don't help with button/status margin.
-        /*
-        mypyRun.setMargin(JBUI.insets(0));
-        mypyRun.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        mypyStatus.setMargin(JBUI.insets(0));
-        mypyStatus.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-       */
-
-        // Hotkey action bindings. (replaced by global actions)
-        /*
-        bindListAction(new AbstractAction("copyMypy") {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (MypyTerminal.this.runner.isRunning()) {
-                    return;
-                }
-                MypyError error = MypyTerminal.this.errorsList.getSelectedValue();
-                if (error == null) { // no errors
-                    return;
-                }
-                if (error.getLevel() == MypyError.HEADER) {
-                    return;
-                }
-                StringSelection selection = new StringSelection(error.getRaw());
-                Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-                clipboard.setContents(selection, selection);
-            }
-        }, "control shift C", "copyMypyAction");
-        */
 
         // List popup menu.
 
@@ -345,11 +305,12 @@ public class MypyTerminal {
                 // Access UI is prohibited from non-dispatch thread.
                 ApplicationManager.getApplication().invokeLater(() -> {
                     MypyTerminal.this.setReady(result);
-                    if ((result == null) || (result.getErrcount() == 0)) {
+                    if ((result == null) || (result.getErrcount() == 0) & (result.getNotecount() == 0)) {
                         return;
                     }
                     if (result.getRetCode() != 0) {
                         MypyTerminal.this.makeErrorMap(result);
+                        MypyTerminal.this.generateMarkers(result);
                         MypyTerminal.this.collapsed = new HashSet<String>();
                         MypyTerminal.this.renderList();
                         MypyTerminal.this.errorsList.setSelectedIndex(0);
@@ -383,18 +344,18 @@ public class MypyTerminal {
             mypyStatus.setText("PASSED");
             mypyStatus.setForeground(new JBColor(new Color(BLACK), new Color(100, 255, 100)));
             mypyStatus.setBackground(new JBColor(new Color(LIGHT_GREEN), new Color(BLACK)));
-            // clear debug output
-            errorsList.setListData(new MypyError[] {});
         } else {
             String suffix = result.getErrcount() != 1 ? "s" : "";
             mypyStatus.setText(String.format("FAILED: %d error%s", result.getErrcount(), suffix));
             mypyStatus.setForeground(new JBColor(new Color(BLACK), new Color(255, 100, 100)));
             mypyStatus.setBackground(new JBColor(new Color(LIGHT_RED), new Color(BLACK)));
-            if (result.getErrcount() == 0) {
+            if (result.getErrcount() == 0 & result.getNotecount() == 0) {
                 // keep debug output
                 return;
             }
         }
+        // clear debug output
+        errorsList.setListData(new MypyError[] {});
         errorsList.setForeground(new JBColor(new Color(BLACK), new Color(GRAY)));
         errorsList.setCellRenderer(mypyRenderer);
     }
@@ -415,6 +376,24 @@ public class MypyTerminal {
         }
         errorMap = map;
         errorFiles = files;
+    }
+
+    private void generateMarkers(MypyResult result) {
+        for (MypyError error: result.getErrors()) {
+            if (error.isError()) {
+                String directory = project.getBaseDir().getPath();
+                String file = error.getFile();
+                int lineno = max(error.getLine() - 1, 0);
+                VirtualFile vf = LocalFileSystem.getInstance().findFileByPath(directory + File.separator + file);
+                if (vf != null) {
+                    Document document = FileDocumentManager.getInstance().getCachedDocument(vf);
+                    if (document != null) {
+                        error.marker = document.createRangeMarker(document.getLineStartOffset(lineno),
+                                document.getLineEndOffset(lineno));
+                    }
+                }
+            }
+        }
     }
 
     public void renderList() {
@@ -455,16 +434,31 @@ public class MypyTerminal {
             int lineno = max(error.getLine() - 1, 0);
             int col_offset = max(error.getColumn() - 1, 0);
             VirtualFile vf = LocalFileSystem.getInstance().findFileByPath(directory + File.separator + file);
-            // May be null if an error is shown in a file beyond rSERVER
+            // May be null if an error is shown in a file beyond repository
             // (e.g. typeshed or a deleted file because of a bug).
             if (vf != null) {
                 FileEditor[] f_editors = FileEditorManagerEx.getInstanceEx(project).openFile(vf, true);
                 if (f_editors[0] instanceof TextEditor) {
                     Editor editor = ((TextEditor) f_editors[0]).getEditor();
-                    LogicalPosition pos = new LogicalPosition(lineno, col_offset);
-                    editor.getCaretModel().getPrimaryCaret().moveToLogicalPosition(pos);
-                    editor.getSelectionModel().selectLineAtCaret();
+                    if (error.marker == null) {
+                        // Try re-creating marker, likely the file was not in cache after the type check.
+                        Document document = FileDocumentManager.getInstance().getCachedDocument(vf);
+                        if (document != null) {
+                            error.marker = document.createRangeMarker(document.getLineStartOffset(lineno),
+                                    document.getLineEndOffset(lineno));
+                        }
+                    }
+                    if (error.marker != null && error.marker.isValid()) {
+                        editor.getCaretModel().getPrimaryCaret().moveToOffset(error.marker.getStartOffset());
+                    }
+                    else {
+                        LogicalPosition pos = new LogicalPosition(lineno, col_offset);
+                        editor.getCaretModel().getPrimaryCaret().moveToLogicalPosition(pos);
+                    }
                     editor.getScrollingModel().scrollToCaret(ScrollType.CENTER);
+                    if (error.marker != null && error.marker.isValid()) {
+                        editor.getSelectionModel().selectLineAtCaret();
+                    }
                 }
             }
         }

@@ -65,6 +65,7 @@ public class MypyRunner {
                         process.getInputStream()));
         MypyError[] data;
         int errcount = 0;
+        int notecount = 0;
         try {
             String line;
             while((line=br.readLine()) != null) {
@@ -72,6 +73,9 @@ public class MypyRunner {
                     lines.add(new MypyError(line, line.matches(MypyTerminal.ERROR_RE) ? MypyError.ERROR : MypyError.NOTE));
                     if (line.matches(MypyTerminal.ERROR_RE)) {
                         errcount++;
+                    }
+                    if (line.matches(MypyTerminal.NOTE_RE)) {
+                        notecount++;
                     }
                 } else if (line.matches("PASSED") | line.matches("FAILED")) {
                     // these will bre shown in status line anyway
@@ -96,7 +100,7 @@ public class MypyRunner {
         }
         Collections.sort(lines, Comparator.comparing((a) -> a.getFile()));
         this.isRunning = false;
-        return new MypyResult(process.exitValue(), errcount, lines);
+        return new MypyResult(process.exitValue(), errcount, notecount, lines);
     }
 
     public boolean isRunning() {

@@ -1,6 +1,7 @@
 package com.dropbox.plugins.mypy_plugin.model;
 
 import com.dropbox.plugins.mypy_plugin.MypyTerminal;
+import com.intellij.openapi.editor.RangeMarker;
 
 public class MypyError {
     public final static int DEBUG = 0;
@@ -12,6 +13,7 @@ public class MypyError {
     private String file;
     private int line;
     private int column;
+    public RangeMarker marker;
     private String message;
     private String raw;
     // used only by headers
@@ -21,6 +23,7 @@ public class MypyError {
     public MypyError(String raw, int level) {
         this.raw = raw;
         this.level = level;
+        this.marker = null;
         assert((level == DEBUG) | (level == NOTE) | (level == ERROR));
         if (level == DEBUG) {
             return;
