@@ -312,7 +312,7 @@ public class MypyTerminal {
                     MypyTerminal.this.setReady(result);
                     if (run_time > 15_000) {
                         String suffix = result.getErrcount() != 1 ? "s" : "";
-                        Notification completed = new Notification("Indexing","Mypy Daemon",
+                        Notification completed = new Notification("Indexing", "Mypy Daemon",
                                 String.format("Type checking completed: %d error%s found",
                                         result.getErrcount(), suffix),
                                 NotificationType.INFORMATION);
