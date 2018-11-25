@@ -1,6 +1,7 @@
 package com.dropbox.plugins.mypy_plugin.model;
 
 import com.dropbox.plugins.mypy_plugin.MypyTerminal;
+import com.dropbox.plugins.mypy_plugin.MypyToolWindowFactory;
 import com.intellij.openapi.editor.RangeMarker;
 
 public class MypyError {
@@ -30,8 +31,10 @@ public class MypyError {
         }
         String loc;
         String[] pair;
-        System.out.println(level);
-        System.out.println(raw);
+        if (MypyToolWindowFactory.DEBUG_BUILD) {
+            System.out.println(level);
+            System.out.println(raw);
+        }
         if (level == NOTE) {
             pair = raw.split(MypyTerminal.NOTE_MARK);
         } else {

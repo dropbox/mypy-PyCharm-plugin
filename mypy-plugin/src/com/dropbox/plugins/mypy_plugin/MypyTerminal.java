@@ -3,6 +3,9 @@ package com.dropbox.plugins.mypy_plugin;
 import com.dropbox.plugins.mypy_plugin.model.MypyError;
 import com.dropbox.plugins.mypy_plugin.model.MypyResult;
 import com.intellij.icons.AllIcons;
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.*;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
@@ -301,10 +304,20 @@ public class MypyTerminal {
             @Override
             public void run() {
                 Thread.currentThread().setName("MypyRunnerThread");
+                long start_time = System.currentTimeMillis();
                 MypyResult result = MypyTerminal.this.runner.runMypyDaemon();
+                long run_time = System.currentTimeMillis() - start_time;
                 // Access UI is prohibited from non-dispatch thread.
                 ApplicationManager.getApplication().invokeLater(() -> {
                     MypyTerminal.this.setReady(result);
+                    if (run_time > 15_000) {
+                        String suffix = result.getErrcount() != 1 ? "s" : "";
+                        Notification completed = new Notification("Indexing","Mypy Daemon",
+                                String.format("Type checking completed: %d error%s found",
+                                        result.getErrcount(), suffix),
+                                NotificationType.INFORMATION);
+                        Notifications.Bus.notify(completed);
+                    }
                     if ((result == null) || (result.getErrcount() == 0) & (result.getNotecount() == 0)) {
                         return;
                     }
@@ -441,11 +454,15 @@ public class MypyTerminal {
                 if (f_editors[0] instanceof TextEditor) {
                     Editor editor = ((TextEditor) f_editors[0]).getEditor();
                     if (error.marker == null) {
-                        // Try re-creating marker, likely the file was not in cache after the type check.
+                        // Try re-creating markers, likely the file was not in cache after the type check.
+                        // TODO: do this on document opening for all documents?
                         Document document = FileDocumentManager.getInstance().getCachedDocument(vf);
                         if (document != null) {
-                            error.marker = document.createRangeMarker(document.getLineStartOffset(lineno),
-                                    document.getLineEndOffset(lineno));
+                            for (MypyError an_error: errorMap.get(error.getFile())) {
+                                int a_lineno = max(an_error.getLine() - 1, 0);
+                                an_error.marker = document.createRangeMarker(document.getLineStartOffset(a_lineno),
+                                        document.getLineEndOffset(a_lineno));
+                            }
                         }
                     }
                     if (error.marker != null && error.marker.isValid()) {
