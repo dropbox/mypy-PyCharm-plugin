@@ -1,15 +1,11 @@
 package com.dropbox.plugins.mypy_plugin;
 
 import com.dropbox.plugins.mypy_plugin.model.MypyError;
-import com.intellij.icons.AllIcons;
-import com.intellij.openapi.util.IconLoader;
 import com.intellij.ui.ColoredListCellRenderer;
 import com.intellij.ui.JBColor;
 import com.intellij.ui.SimpleTextAttributes;
-import org.yaml.snakeyaml.error.MarkedYAMLException;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 class MypyCellRenderer extends ColoredListCellRenderer {
@@ -43,7 +39,7 @@ class MypyCellRenderer extends ColoredListCellRenderer {
         }
         if (error.getLevel() == MypyError.HEADER) {
             String file = error.getFile();
-            String suffix = error.getErrcount() > 1 ? "s" : "";
+            String suffix = error.getErrcount() != 1 ? "s" : "";
             String cnt = String.format("(%d error%s)", error.getErrcount(), suffix);
             append(file + " ");
             append(cnt, new SimpleTextAttributes(SimpleTextAttributes.STYLE_PLAIN,
