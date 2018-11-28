@@ -19,6 +19,7 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.ToolWindow;
+import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.ui.JBColor;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.content.Content;
@@ -61,7 +62,7 @@ public class MypyTerminal {
     private Set<String> collapsed;
     private HashMap<String, ArrayList<MypyError>> errorMap;
 
-    final public static int GRAY = 12632256;
+    final public static int GRAY = 11579568;
     final public static int DARK_GRAY = 7368816;
     final public static int LIGHT_GREEN = 13500365;
     final public static int LIGHT_RED = 16764365;
@@ -304,18 +305,20 @@ public class MypyTerminal {
             @Override
             public void run() {
                 Thread.currentThread().setName("MypyRunnerThread");
-                long start_time = System.currentTimeMillis();
                 MypyResult result = MypyTerminal.this.runner.runMypyDaemon();
-                long run_time = System.currentTimeMillis() - start_time;
                 // Access UI is prohibited from non-dispatch thread.
                 ApplicationManager.getApplication().invokeLater(() -> {
                     MypyTerminal.this.setReady(result);
-                    if (run_time > 15_000) {
+                    ToolWindow tw = ToolWindowManager.getInstance(project).getToolWindow(
+                            MypyToolWindowFactory.MYPY_PLUGIN_ID);
+                    if (!tw.isVisible()) {
                         String suffix = result.getErrcount() != 1 ? "s" : "";
+                        NotificationType n_type =
+                                result.getRetCode() != 0 ? NotificationType.WARNING : NotificationType.INFORMATION;
                         Notification completed = new Notification("Indexing", "Mypy Daemon",
                                 String.format("Type checking completed: %d error%s found",
                                         result.getErrcount(), suffix),
-                                NotificationType.INFORMATION);
+                                n_type);
                         Notifications.Bus.notify(completed);
                     }
                     if ((result == null) || (result.getErrcount() == 0) & (result.getNotecount() == 0)) {
