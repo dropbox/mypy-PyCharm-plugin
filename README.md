@@ -32,7 +32,7 @@ the full environment. If the plugin says something like
 then this is likely the cause. In this case right click in mypy
 terminal in PyCharm -> Configure plugin. Then enter the path where
 mypy is installed as PATH suffix. If you are using a virtual environment,
-thih would look like `/my/project/bin`. If necessary, you can also
+this would look like `/my/project/bin`. If necessary, you can also
 configure mypy command to use your custom `.ini` file and flags.
 
 ## Usage
