@@ -1,0 +1,30 @@
+plugins {
+    id 'org.jetbrains.intellij' version '0.4.8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        java.srcDir 'src'
+        resources.srcDir 'resources'
+    }
+    test {
+        java.srcDir 'test'
+    }
+}
+
+intellij {
+    pluginName 'mypy-plugin'
+    // Build for IntelliJ Community with the Python plugin
+    // Building for PyCharm will be directly supported soon by https://github.com/JetBrains/gradle-intellij-plugin
+    version 'IC-2019.1.3'
+    plugins = ['PythonCore:2019.1.191.7479.7']
+    updateSinceUntilBuild false
+    downloadSources true
+}
+
+dependencies {
+}
