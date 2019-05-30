@@ -13,15 +13,44 @@ by various flags and config settings.
 
 ![mypy plugin screenshot](https://github.com/dropbox/mypy-PyCharm-plugin/blob/master/mypy-mypy.png)
 
-## Installation steps
+## Installation
 
-The plugin requires [mypy](https://github.com/python/mypy) to be installed.
+_Note: The plugin is **not** available at the JetBrains Plugins
+Repository yet. You have to build and install the plugin manually.
+Follow issue #7 for updates about the Plugins Repository._
 
-1. Download [mypy-plugin/mypy-plugin.jar](https://github.com/dropbox/mypy-PyCharm-plugin/blob/master/mypy-plugin/mypy-plugin.jar?raw=true)
-2. In PyCharm go to Preferences -> Plugins -> Install plugins from disc
-   -> Select downloaded file -> Restart PyCharm when prompted.
+Requirements for building the plugin:
+
+* [Oracle JDK 8](https://www.oracle.com/javadownload)
+    * Either `javac` should be available on your PATH or JAVA_HOME
+      environment variable should contain your JDK installation path
+
+Requirements for running the plugin:
+
+* [Mypy](https://github.com/python/mypy)
+    * The plugin runs the `mypy` executable to check types
+
+Installation steps:
+
+1. Clone the GitHub repository.
+
+2. Open the cloned directory in your terminal and build it using this
+   shell command:
+
+       ./gradlew clean buildPlugin
+       
+   or on Windows:
+   
+       gradlew clean buildPlugin
+   
+   The plugin file `mypy-PyCharm-plugin.zip` will be built in
+   `build/distributions`.
+    
+2. In PyCharm go to Preferences -> Plugins -> Install plugins from disk
+   -> Select the plugin file -> Restart PyCharm when prompted.
+   
 3. After restart you should find the plugin in View -> Tool windows
-   -> Mypy terminal
+   -> Mypy terminal.
 
 ## Configuration
 
@@ -57,8 +86,19 @@ Currently supported features and keyboard shortcuts:
 - Sometimes mypy shows links to online documentation; to follow
   links use `Alt + <click>`
 
+## Contributing
+
 External contributions to the project should be subject to
 Dropbox Contributor License Agreement (CLA).
+
+1. Open the repository in IntelliJ 2019.1 or newer via
+   File -> Open. IntelliJ will import it as a Gradle project.
+
+2. Set up a project JDK via File -> Project Structure -> Project
+   -> Project SDK. JDK 8 or newer is required.
+
+3. Build and run the plugin via a Gradle task `runIde` available
+   as View -> Tool Windows -> Gradle -> Tasks -> intellij -> runIde.
 
 --------------------------------
 Copyright (c) 2018 Dropbox, Inc.
