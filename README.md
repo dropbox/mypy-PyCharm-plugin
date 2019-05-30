@@ -17,7 +17,8 @@ by various flags and config settings.
 
 _Note: The plugin is **not** available at the JetBrains Plugins
 Repository yet. You have to build and install the plugin manually.
-Follow issue #7 for updates about the Plugins Repository._
+Follow issue [#7](https://github.com/dropbox/mypy-PyCharm-plugin/issues/7)
+for updates about the Plugins Repository._
 
 Requirements for building the plugin:
 
