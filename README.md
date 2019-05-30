@@ -23,7 +23,7 @@ for updates about the Plugins Repository._
 Requirements for building the plugin:
 
 * [Oracle JDK 8](https://www.oracle.com/javadownload)
-    * Either `javac` should be available on your PATH or JAVA_HOME
+    * Either `javac` should be available on your `PATH` or `JAVA_HOME`
       environment variable should contain your JDK installation path
 
 Requirements for running the plugin:
@@ -47,10 +47,10 @@ Installation steps:
    The plugin file `mypy-PyCharm-plugin.zip` will be built in
    `build/distributions`.
     
-2. In PyCharm go to Preferences -> Plugins -> Install plugins from disk
+3. In PyCharm go to Preferences -> Plugins -> Install plugins from disk
    -> Select the plugin file -> Restart PyCharm when prompted.
    
-3. After restart you should find the plugin in View -> Tool windows
+4. After restart you should find the plugin in View -> Tool windows
    -> Mypy terminal.
 
 ## Configuration
