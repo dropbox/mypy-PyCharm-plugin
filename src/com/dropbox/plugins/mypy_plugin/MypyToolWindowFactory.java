@@ -10,12 +10,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 
 
-public class MypyToolWindowFactory implements ToolWindowFactory, DumbAware {
-    final public static String DEFAULT_MYPY_PATH_SUFFIX = "";
-    final public static String DEFAULT_MYPY_COMMAND = "dmypy start -- --follow-imports=error ; dmypy check .";
+public final class MypyToolWindowFactory implements ToolWindowFactory, DumbAware {
+    final static String DEFAULT_MYPY_PATH_SUFFIX = "";
+    final static String DEFAULT_MYPY_COMMAND = "dmypy start -- --follow-imports=error ; dmypy check .";
     final public static String MYPY_PLUGIN_ID = "Mypy Terminal";
     final public static boolean DEBUG_BUILD = false;
-    final public static HashMap<Project, MypyTerminal> instances = new HashMap<>();
+    private final static HashMap<Project, MypyTerminal> instances = new HashMap<>();
 
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         MypyTerminal terminal = new MypyTerminal(project);

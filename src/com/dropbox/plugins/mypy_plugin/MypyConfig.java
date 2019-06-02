@@ -7,26 +7,26 @@ import icons.MypyIcons;
 
 import javax.swing.*;
 
-public class MypyConfig extends DialogWrapper {
+public final class MypyConfig extends DialogWrapper {
     private JPanel contentPane;
     private JLabel logo;
     private JTextField command;
     private JTextField path;
-    private final MypyConfigService mConfig;
+    private final MypyConfigService config;
 
-    public MypyConfig(Project project) {
+    MypyConfig(Project project) {
         super(project);
         setModal(true);
         init();
         setTitle("Mypy Plugin Configuration");
-        mConfig = MypyConfigService.getInstance(project);
-        String storedCmd = mConfig.getExecutableName();
+        config = MypyConfigService.getInstance(project);
+        String storedCmd = config != null ? config.getExecutableName() : null;
         if (storedCmd != null) {
             this.command.setText(storedCmd);
         } else {
             this.command.setText(MypyToolWindowFactory.DEFAULT_MYPY_COMMAND);
         }
-        String storedPath = mConfig.getPathSuffix();
+        String storedPath = config != null ? config.getPathSuffix() : null;
         if (storedPath != null) {
             this.path.setText(storedPath);
         } else {
@@ -39,8 +39,8 @@ public class MypyConfig extends DialogWrapper {
 
     @Override
     protected void doOKAction() {
-        mConfig.setExecutableName(command.getText());
-        mConfig.setPathSuffix(path.getText());
+        config.setExecutableName(command.getText());
+        config.setPathSuffix(path.getText());
         super.doOKAction();
     }
 

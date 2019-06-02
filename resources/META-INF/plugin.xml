@@ -31,36 +31,36 @@
 
   <extensions defaultExtensionNs="com.intellij">
       <toolWindow id="Mypy Terminal" icon="MypyIcons.MYPY_SMALL" anchor="bottom" factoryClass="com.dropbox.plugins.mypy_plugin.MypyToolWindowFactory"/>
-      <projectService serviceInterface="com.dropbox.plugins.mypy_plugin.MypyConfigService" serviceImplementation="com.dropbox.plugins.mypy_plugin.MypyConfigService"/>
+      <projectService serviceImplementation="com.dropbox.plugins.mypy_plugin.MypyConfigService"/>
   </extensions>
 
   <actions>
-    <action id="Toggle Mypy Window" class="com.dropbox.plugins.mypy_plugin.actions.ShowMypyWindow" text="Toggle mypy window">
+    <action id="Toggle Mypy Window" class="com.dropbox.plugins.mypy_plugin.actions.ShowMypyWindow" text="Toggle Mypy Window">
       <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl X"/>
       <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="shift ctrl X"/>
       <keyboard-shortcut keymap="Mac OS X" first-keystroke="shift ctrl X"/>
     </action>
-    <action id="Run Mypy Daemon" class="com.dropbox.plugins.mypy_plugin.actions.RunMypyDaemon" text="Run mypy daemon">
+    <action id="Run Mypy Daemon" class="com.dropbox.plugins.mypy_plugin.actions.RunMypyDaemon" text="Run Mypy Daemon">
       <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl M"/>
       <keyboard-shortcut keymap="Mac OS X" first-keystroke="shift ctrl M"/>
       <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="shift ctrl M"/>
     </action>
-    <action id="Previous Mypy Error" class="com.dropbox.plugins.mypy_plugin.actions.PrevError" text="Go to previous mypy error">
+    <action id="Previous Mypy Error" class="com.dropbox.plugins.mypy_plugin.actions.PrevError" text="Go to Previous Mypy Error">
       <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl UP"/>
       <keyboard-shortcut keymap="Mac OS X" first-keystroke="shift ctrl UP"/>
       <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="shift ctrl UP"/>
     </action>
-    <action id="Next Mypy Error" class="com.dropbox.plugins.mypy_plugin.actions.NextError" text="Go to next mypy error">
+    <action id="Next Mypy Error" class="com.dropbox.plugins.mypy_plugin.actions.NextError" text="Go to Next Mypy Error">
       <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl DOWN"/>
       <keyboard-shortcut keymap="Mac OS X" first-keystroke="shift ctrl DOWN"/>
       <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="shift ctrl DOWN"/>
     </action>
-    <action id="Copy Mypy Error" class="com.dropbox.plugins.mypy_plugin.actions.CopyError" text="Copy text of current mypy error">
+    <action id="Copy Mypy Error" class="com.dropbox.plugins.mypy_plugin.actions.CopyError" text="Copy Text of Current Mypy Error">
       <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl C"/>
       <keyboard-shortcut keymap="Mac OS X" first-keystroke="shift ctrl C"/>
       <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="shift ctrl C"/>
     </action>
-    <action id="Expand Mypy Error" class="com.dropbox.plugins.mypy_plugin.actions.ExpandErrors" text="Collapse/expand mypy errors in file">
+    <action id="Expand Mypy Error" class="com.dropbox.plugins.mypy_plugin.actions.ExpandErrors" text="Collapse/Expand Mypy Errors in File">
       <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl ENTER"/>
       <keyboard-shortcut keymap="Mac OS X" first-keystroke="shift ctrl ENTER"/>
       <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="shift ctrl ENTER"/>
