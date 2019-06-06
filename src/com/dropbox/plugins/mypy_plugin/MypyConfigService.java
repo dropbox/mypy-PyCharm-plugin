@@ -6,6 +6,7 @@ import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @State(
@@ -13,35 +14,34 @@ import org.jetbrains.annotations.Nullable;
         storages = {
                 @Storage("MypyConfig.xml")}
 )
-public class MypyConfigService implements PersistentStateComponent<MypyConfigService> {
+public final class MypyConfigService implements PersistentStateComponent<MypyConfigService> {
+    private String executableName;
+    private String pathSuffix;
 
-    String executableName;
-    String pathSuffix;
-
-    public String getExecutableName() {
+    String getExecutableName() {
         return executableName;
     }
 
-    public void setExecutableName(String executableName) {
+    void setExecutableName(String executableName) {
         this.executableName = executableName;
     }
 
-    public String getPathSuffix() {
+    String getPathSuffix() {
         return pathSuffix;
     }
 
-    public void setPathSuffix(String pathSuffix) {
+    void setPathSuffix(String pathSuffix) {
         this.pathSuffix = pathSuffix;
     }
 
-    @Nullable
+    @NotNull
     @Override
     public MypyConfigService getState() {
         return this;
     }
 
     @Override
-    public void loadState(MypyConfigService config) {
+    public void loadState(@NotNull MypyConfigService config) {
         XmlSerializerUtil.copyBean(config, this);
     }
 

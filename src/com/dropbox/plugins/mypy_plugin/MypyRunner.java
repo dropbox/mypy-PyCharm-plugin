@@ -5,6 +5,7 @@ import com.dropbox.plugins.mypy_plugin.model.MypyResult;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -13,45 +14,45 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class MypyRunner {
-
-    private JList<MypyError> display;
-    private Project project;
+public final class MypyRunner {
+    private final JList<MypyError> display;
+    private final Project project;
     private boolean isRunning;
 
-    public MypyRunner(JList<MypyError> display, Project project) {
+    MypyRunner(JList<MypyError> display, Project project) {
         this.display = display;
         this.project = project;
         this.isRunning = false;
     }
 
-    public MypyResult runMypyDaemon() {
+    @Nullable
+    MypyResult runMypyDaemon() {
         Process process;
         String directory = project.getBaseDir().getPath();
-        MypyConfigService mConfig = MypyConfigService.getInstance(project);
+        MypyConfigService config = MypyConfigService.getInstance(project);
 
-        ProcessBuilder pbuilder = new ProcessBuilder();
-        Map<String, String> envProcess = pbuilder.environment();
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        Map<String, String> envProcess = processBuilder.environment();
         Map<String, String> env = System.getenv();
 
         envProcess.putAll(env);
-        String extraPath = mConfig.getPathSuffix();
+        String extraPath = config != null ? config.getPathSuffix() : null;
         if (extraPath == null) {  // config deleted
             extraPath = MypyToolWindowFactory.DEFAULT_MYPY_PATH_SUFFIX;
         }
         if (!extraPath.equals("")) {
             envProcess.put("PATH", envProcess.get("PATH") + File.pathSeparator + extraPath);
         }
-        String mypyCommand = mConfig.getExecutableName();
+        String mypyCommand = config != null ? config.getExecutableName() : null;
         if ((mypyCommand == null) || (mypyCommand.equals(""))) {
             mypyCommand = MypyToolWindowFactory.DEFAULT_MYPY_COMMAND;
         }
-        pbuilder.command("/bin/bash", "-c", mypyCommand);
-        pbuilder.redirectErrorStream(true);
-        pbuilder.redirectInput(new File("/dev/null"));
+        processBuilder.command("/bin/bash", "-c", mypyCommand);
+        processBuilder.redirectErrorStream(true);
+        processBuilder.redirectInput(new File("/dev/null"));
         this.isRunning = true;
         try {
-            process = pbuilder.directory(new File(directory)).start();
+            process = processBuilder.directory(new File(directory)).start();
         } catch (IOException e) {
             ApplicationManager.getApplication().invokeLater(() -> Messages.showMessageDialog(project, e.getMessage(),
                     "Plugin Exception:", Messages.getErrorIcon()));
@@ -64,18 +65,18 @@ public class MypyRunner {
                 new InputStreamReader(
                         process.getInputStream()));
         MypyError[] data;
-        int errcount = 0;
-        int notecount = 0;
+        int errCount = 0;
+        int noteCount = 0;
         try {
             String line;
             while((line=br.readLine()) != null) {
                 if (line.matches(MypyTerminal.ERROR_RE) | line.matches(MypyTerminal.NOTE_RE)) {
                     lines.add(new MypyError(line, line.matches(MypyTerminal.ERROR_RE) ? MypyError.ERROR : MypyError.NOTE));
                     if (line.matches(MypyTerminal.ERROR_RE)) {
-                        errcount++;
+                        errCount++;
                     }
                     if (line.matches(MypyTerminal.NOTE_RE)) {
-                        notecount++;
+                        noteCount++;
                     }
                 } else if (line.matches("PASSED") | line.matches("FAILED")) {
                     // these will bre shown in status line anyway
@@ -98,9 +99,9 @@ public class MypyRunner {
             this.isRunning = false;
             return null;
         }
-        Collections.sort(lines, Comparator.comparing((a) -> a.getFile()));
+        lines.sort(Comparator.comparing(MypyError::getFile));
         this.isRunning = false;
-        return new MypyResult(process.exitValue(), errcount, notecount, lines);
+        return new MypyResult(process.exitValue(), errCount, noteCount, lines);
     }
 
     public boolean isRunning() {

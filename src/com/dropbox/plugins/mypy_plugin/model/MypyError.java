@@ -4,13 +4,13 @@ import com.dropbox.plugins.mypy_plugin.MypyTerminal;
 import com.dropbox.plugins.mypy_plugin.MypyToolWindowFactory;
 import com.intellij.openapi.editor.RangeMarker;
 
-public class MypyError {
+final public class MypyError {
     public final static int DEBUG = 0;
     public final static int NOTE = 1;
     public final static int ERROR = 2;
     public final static int HEADER = -1; // not a real error, just a separator
 
-    private int level;
+    private final int level;
     private String file;
     private int line;
     private int column;
@@ -18,7 +18,7 @@ public class MypyError {
     private String message;
     private String raw;
     // used only by headers
-    private int errcount;
+    private int errCount;
     private boolean collapsed;
 
     public MypyError(String raw, int level) {
@@ -69,9 +69,9 @@ public class MypyError {
         }
     }
 
-    public MypyError(String file, int level, int errcount) {
+    public MypyError(String file, int level, int errCount) {
         this.level = level;
-        this.errcount = errcount;
+        this.errCount = errCount;
         this.file = file;
         collapsed = false;
         assert (level == HEADER);
@@ -113,8 +113,8 @@ public class MypyError {
         return raw;
     }
 
-    public int getErrcount() {
-        return errcount;
+    public int getErrCount() {
+        return errCount;
     }
 
     public boolean isCollapsed() {

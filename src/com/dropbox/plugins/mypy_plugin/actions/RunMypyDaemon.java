@@ -9,11 +9,11 @@ import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowManager;
+import org.jetbrains.annotations.NotNull;
 
-public class RunMypyDaemon extends AnAction implements DumbAware {
-
+final class RunMypyDaemon extends AnAction implements DumbAware {
     @Override
-    public void actionPerformed(AnActionEvent e) {
+    public void actionPerformed(@NotNull AnActionEvent e) {
         Project project = e.getData(PlatformDataKeys.PROJECT);
         if (project == null) {
             return;
@@ -21,7 +21,7 @@ public class RunMypyDaemon extends AnAction implements DumbAware {
         ToolWindow tw = ToolWindowManager.getInstance(project).getToolWindow(
                 MypyToolWindowFactory.MYPY_PLUGIN_ID);
         if (!tw.isVisible()) {
-            tw.show((Runnable) null);
+            tw.show(null);
         }
         MypyTerminal terminal = MypyToolWindowFactory.getMypyTerminal(project);
         if (terminal == null) {

@@ -2,17 +2,17 @@ package com.dropbox.plugins.mypy_plugin.model;
 
 import java.util.ArrayList;
 
-public class MypyResult {
-    private int retCode;
-    private int errcount;
-    private int notecount;
-    private ArrayList<MypyError> errors;
+final public class MypyResult {
+    private final int retCode;
+    private final int errCount;
+    private final int noteCount;
+    private final ArrayList<MypyError> errors;
 
-    public MypyResult(int code, int errcount, int notecount, ArrayList<MypyError> errors) {
+    public MypyResult(int code, int errCount, int noteCount, ArrayList<MypyError> errors) {
         this.retCode = code;
         this.errors = errors;
-        this.errcount = errcount;
-        this.notecount = notecount;
+        this.errCount = errCount;
+        this.noteCount = noteCount;
     }
 
     public int getRetCode() {
@@ -23,11 +23,11 @@ public class MypyResult {
         return errors;
     }
 
-    public int getErrcount() {
-        return errcount;
+    public int getErrCount() {
+        return errCount;
     }
 
-    public int getNotecount() {
-        return notecount;
+    public int getNoteCount() {
+        return noteCount;
     }
 }

@@ -4,29 +4,28 @@ import com.dropbox.plugins.mypy_plugin.model.MypyError;
 import com.intellij.ui.ColoredListCellRenderer;
 import com.intellij.ui.JBColor;
 import com.intellij.ui.SimpleTextAttributes;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
 
-class MypyCellRenderer extends ColoredListCellRenderer {
-
-    public MypyCellRenderer() {
+final class MypyCellRenderer extends ColoredListCellRenderer<MypyError> {
+    MypyCellRenderer() {
         setOpaque(true);
     }
 
     @Override
-    protected void customizeCellRenderer(JList list, Object value, int index, boolean selected, boolean hasFocus) {
+    protected void customizeCellRenderer(@NotNull JList<? extends MypyError> list, MypyError value, int index, boolean selected, boolean hasFocus) {
         int LINE_WIDTH = 5;
         int GAP = 10;
         String TAB = "     ";
-        MypyError error = (MypyError) value;
         setFont(list.getFont());
         setToolTipText(null);
-        boolean iserror = error.getLevel() == MypyError.ERROR;
-        boolean isnote = error.getLevel() == MypyError.NOTE;
-        boolean collapsed = error.isCollapsed();
+        boolean isError = value.getLevel() == MypyError.ERROR;
+        boolean isNote = value.getLevel() == MypyError.NOTE;
+        boolean collapsed = value.isCollapsed();
         setPreferredSize(new Dimension(-1, 5));
-        if (error.getLevel() == MypyError.HEADER) {
+        if (value.getLevel() == MypyError.HEADER) {
             if (collapsed) {
                 setIcon(UIManager.getIcon("Tree.collapsedIcon"));
                 setIconTextGap(GAP);
@@ -37,33 +36,33 @@ class MypyCellRenderer extends ColoredListCellRenderer {
         } else {
             setIcon(null);
         }
-        if (error.getLevel() == MypyError.HEADER) {
-            String file = error.getFile();
-            String suffix = error.getErrcount() != 1 ? "s" : "";
-            String cnt = String.format("(%d error%s)", error.getErrcount(), suffix);
+        if (value.getLevel() == MypyError.HEADER) {
+            String file = value.getFile();
+            String suffix = value.getErrCount() != 1 ? "s" : "";
+            String cnt = String.format("(%d error%s)", value.getErrCount(), suffix);
             append(file + " ");
             append(cnt, new SimpleTextAttributes(SimpleTextAttributes.STYLE_PLAIN,
-                    new Color(255, 100, 100)));
-        } else if (iserror | isnote) {
+                    new JBColor(new Color(255, 100, 100), new Color(255, 100, 100))));
+        } else if (isError | isNote) {
             String line;
-            if (error.getLine() > 0) {
-                line = String.format("%d", error.getLine());
+            if (value.getLine() > 0) {
+                line = String.format("%d", value.getLine());
             } else {
                 line = "";
             }
-            append(TAB + String.format("%1$-" + LINE_WIDTH + "s", isnote ? "" : line),
+            append(TAB + String.format("%1$-" + LINE_WIDTH + "s", isNote ? "" : line),
                     new SimpleTextAttributes(SimpleTextAttributes.STYLE_PLAIN,
                             new JBColor(new Color(MypyTerminal.GRAY), new Color(MypyTerminal.DARK_GRAY))));
-            if (isnote) {
-                String[] chunks = error.getMessage().split("\"");
+            if (isNote) {
+                String[] chunks = value.getMessage().split("\"");
                 boolean italic = false;
                 for (int i = 0; i < chunks.length; i++) {
                     if (i == chunks.length - 1) {  // TODO: replace with real HTTP regex treatment.
                         if (chunks[i].matches(".+ http://.+")) {
-                            String[] subchunks = chunks[i].split("http://");
-                            append(subchunks[0], new SimpleTextAttributes(SimpleTextAttributes.STYLE_PLAIN,
+                            String[] subChunks = chunks[i].split("http://");
+                            append(subChunks[0], new SimpleTextAttributes(SimpleTextAttributes.STYLE_PLAIN,
                                     new JBColor(new Color(MypyTerminal.GRAY), new Color(MypyTerminal.DARK_GRAY))));
-                            append(subchunks[1], SimpleTextAttributes.LINK_ATTRIBUTES);
+                            append(subChunks[1], SimpleTextAttributes.LINK_ATTRIBUTES);
                             setToolTipText("Alt + click to follow link");
                             break;
                         }
@@ -78,20 +77,20 @@ class MypyCellRenderer extends ColoredListCellRenderer {
                     italic = !italic;
                 }
             } else {
-                String[] chunks = error.getMessage().split("\"");
+                String[] chunks = value.getMessage().split("\"");
                 boolean italic = false;
-                for (int i = 0; i < chunks.length; i++) {
+                for (String chunk : chunks) {
                     if (italic) {
-                        append(chunks[i], SimpleTextAttributes.REGULAR_ITALIC_ATTRIBUTES);
+                        append(chunk, SimpleTextAttributes.REGULAR_ITALIC_ATTRIBUTES);
                     } else {
-                        append(chunks[i]);
+                        append(chunk);
                     }
                     italic = !italic;
                 }
             }
         } else {
             // something ill-formatted
-            append(error.getRaw());
+            append(value.getRaw());
         }
     }
 }

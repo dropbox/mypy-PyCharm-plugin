@@ -6,27 +6,21 @@ import com.intellij.ui.JBColor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class MypyHelp extends JDialog {
+public final class MypyHelp extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JTextPane textPane;
 
-    public MypyHelp() {
+    private MypyHelp() {
         setContentPane(contentPane);
         setModal(false);
         getRootPane().setDefaultButton(buttonOK);
 
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        buttonOK.addActionListener(e -> dispose());
     }
 
-    public static void main(Project project) {
+    static void show(Project project) {
         MypyHelp dialog = new MypyHelp();
         dialog.pack();
         dialog.setSize(600, 400);
