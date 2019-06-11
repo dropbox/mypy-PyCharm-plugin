@@ -1,4 +1,4 @@
-![mypy logo](https://github.com/dropbox/mypy-PyCharm-plugin/blob/master/mypy-logo.png)
+<img src="http://mypy-lang.org/static/mypy_light.svg" alt="mypy logo" width="300px"/>
 
 # mypy-PyCharm-plugin
 
