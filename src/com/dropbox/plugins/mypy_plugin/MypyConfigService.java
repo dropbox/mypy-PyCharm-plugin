@@ -1,48 +1,31 @@
 package com.dropbox.plugins.mypy_plugin;
 
+import com.dropbox.plugins.mypy_plugin.model.MypyConfig;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.project.Project;
-import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @State(
-        name="MypyConfigService",
+        name = "MypyConfigService",
         storages = {
                 @Storage("MypyConfig.xml")}
 )
-public final class MypyConfigService implements PersistentStateComponent<MypyConfigService> {
-    private String executableName;
-    private String pathSuffix;
+public final class MypyConfigService implements PersistentStateComponent<MypyConfig> {
+    private MypyConfig config;
 
-    String getExecutableName() {
-        return executableName;
-    }
-
-    void setExecutableName(String executableName) {
-        this.executableName = executableName;
-    }
-
-    String getPathSuffix() {
-        return pathSuffix;
-    }
-
-    void setPathSuffix(String pathSuffix) {
-        this.pathSuffix = pathSuffix;
-    }
-
-    @NotNull
+    @Nullable
     @Override
-    public MypyConfigService getState() {
-        return this;
+    public MypyConfig getState() {
+        return config;
     }
 
     @Override
-    public void loadState(@NotNull MypyConfigService config) {
-        XmlSerializerUtil.copyBean(config, this);
+    public void loadState(@NotNull MypyConfig config) {
+        this.config = config;
     }
 
     @Nullable

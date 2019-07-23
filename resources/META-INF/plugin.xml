@@ -31,7 +31,8 @@
 
   <extensions defaultExtensionNs="com.intellij">
       <toolWindow id="Mypy Terminal" icon="MypyIcons.MYPY_SMALL" anchor="bottom" factoryClass="com.dropbox.plugins.mypy_plugin.MypyToolWindowFactory"/>
-      <projectService serviceImplementation="com.dropbox.plugins.mypy_plugin.MypyConfigService"/>
+      <projectService serviceInterface="com.dropbox.plugins.mypy_plugin.MypyConfigService"
+                      serviceImplementation="com.dropbox.plugins.mypy_plugin.MypyConfigService"/>
   </extensions>
 
   <actions>

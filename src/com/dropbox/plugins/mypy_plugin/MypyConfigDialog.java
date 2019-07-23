@@ -1,5 +1,6 @@
 package com.dropbox.plugins.mypy_plugin;
 
+import com.dropbox.plugins.mypy_plugin.model.MypyConfig;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
@@ -7,31 +8,22 @@ import icons.MypyIcons;
 
 import javax.swing.*;
 
-public final class MypyConfig extends DialogWrapper {
+public final class MypyConfigDialog extends DialogWrapper {
     private JPanel contentPane;
     private JLabel logo;
     private JTextField command;
     private JTextField path;
-    private final MypyConfigService config;
+    private final MypyConfigService configService;
 
-    MypyConfig(Project project) {
+    MypyConfigDialog(Project project) {
         super(project);
         setModal(true);
         init();
         setTitle("Mypy Plugin Configuration");
-        config = MypyConfigService.getInstance(project);
-        String storedCmd = config != null ? config.getExecutableName() : null;
-        if (storedCmd != null) {
-            this.command.setText(storedCmd);
-        } else {
-            this.command.setText(MypyToolWindowFactory.DEFAULT_MYPY_COMMAND);
-        }
-        String storedPath = config != null ? config.getPathSuffix() : null;
-        if (storedPath != null) {
-            this.path.setText(storedPath);
-        } else {
-            this.path.setText(MypyToolWindowFactory.DEFAULT_MYPY_PATH_SUFFIX);
-        }
+        configService = MypyConfigService.getInstance(project);
+        MypyConfig config = MypyConfigLoader.findMypyConfig(project);
+        this.command.setText(config.getExecutableName());
+        this.path.setText(config.getPathSuffix());
         logo.setIcon(MypyIcons.MYPY_BIG);
         command.setCaretPosition(0);
         path.setCaretPosition(0);
@@ -39,8 +31,7 @@ public final class MypyConfig extends DialogWrapper {
 
     @Override
     protected void doOKAction() {
-        config.setExecutableName(command.getText());
-        config.setPathSuffix(path.getText());
+        configService.loadState(new MypyConfig(command.getText(), path.getText()));
         super.doOKAction();
     }
 
