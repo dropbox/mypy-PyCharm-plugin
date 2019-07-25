@@ -171,7 +171,7 @@ public final class MypyTerminal {
         popup.add(sep);
         JBMenuItem configItem = new JBMenuItem("Configure plugin...");
         configItem.addActionListener(e -> {
-            MypyConfig dialog = new MypyConfig(project);
+            MypyConfigDialog dialog = new MypyConfigDialog(project);
             dialog.show();
         });
         popup.add(configItem);

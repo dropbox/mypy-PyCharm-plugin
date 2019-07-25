@@ -27,4 +27,5 @@ intellij {
 }
 
 dependencies {
+  implementation 'org.ini4j:ini4j:0.5.4'
 }

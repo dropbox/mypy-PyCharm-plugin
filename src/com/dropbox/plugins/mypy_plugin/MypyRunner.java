@@ -1,5 +1,6 @@
 package com.dropbox.plugins.mypy_plugin;
 
+import com.dropbox.plugins.mypy_plugin.model.MypyConfig;
 import com.dropbox.plugins.mypy_plugin.model.MypyError;
 import com.dropbox.plugins.mypy_plugin.model.MypyResult;
 import com.intellij.openapi.application.ApplicationManager;
@@ -29,24 +30,18 @@ public final class MypyRunner {
     MypyResult runMypyDaemon() {
         Process process;
         String directory = project.getBaseDir().getPath();
-        MypyConfigService config = MypyConfigService.getInstance(project);
+        MypyConfig config = MypyConfigLoader.findMypyConfig(project);
 
         ProcessBuilder processBuilder = new ProcessBuilder();
         Map<String, String> envProcess = processBuilder.environment();
         Map<String, String> env = System.getenv();
 
         envProcess.putAll(env);
-        String extraPath = config != null ? config.getPathSuffix() : null;
-        if (extraPath == null) {  // config deleted
-            extraPath = MypyToolWindowFactory.DEFAULT_MYPY_PATH_SUFFIX;
-        }
+        String extraPath = config.getPathSuffix();
         if (!extraPath.equals("")) {
             envProcess.put("PATH", envProcess.get("PATH") + File.pathSeparator + extraPath);
         }
-        String mypyCommand = config != null ? config.getExecutableName() : null;
-        if ((mypyCommand == null) || (mypyCommand.equals(""))) {
-            mypyCommand = MypyToolWindowFactory.DEFAULT_MYPY_COMMAND;
-        }
+        String mypyCommand = config.getExecutableName();
         processBuilder.command("/bin/bash", "-c", mypyCommand);
         processBuilder.redirectErrorStream(true);
         processBuilder.redirectInput(new File("/dev/null"));
@@ -79,7 +74,7 @@ public final class MypyRunner {
                         noteCount++;
                     }
                 } else if (line.matches("PASSED") | line.matches("FAILED")) {
-                    // these will bre shown in status line anyway
+                    // these will be shown in status line anyway
                     break;
                 } else {
                     debug.add(new MypyError(line, MypyError.DEBUG));
