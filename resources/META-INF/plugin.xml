@@ -66,5 +66,10 @@
       <keyboard-shortcut keymap="Mac OS X" first-keystroke="shift ctrl ENTER"/>
       <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="shift ctrl ENTER"/>
     </action>
+    <action id="Function Signature Suggestion" class="com.dropbox.plugins.mypy_plugin.actions.AskSuggestion" text="Suggest Signature For Function">
+      <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl Y"/>
+      <keyboard-shortcut keymap="Mac OS X" first-keystroke="shift ctrl Y"/>
+      <keyboard-shortcut keymap="Mac OS X 10.5+" first-keystroke="shift ctrl Y"/>
+    </action>
   </actions>
 </idea-plugin>
