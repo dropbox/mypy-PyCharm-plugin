@@ -32,7 +32,6 @@ final class AskSuggestion extends AnAction implements DumbAware {
         if (vf == null)
             return;
         String path = vf.getPath();
-        String argument = path + ":" + String.valueOf(line);
 
         Project project = e.getData(PlatformDataKeys.PROJECT);
         String directory = project.getBaseDir().getPath();
@@ -48,7 +47,8 @@ final class AskSuggestion extends AnAction implements DumbAware {
         if (!extraPath.equals("")) {
             envProcess.put("PATH", envProcess.get("PATH") + File.pathSeparator + extraPath);
         }
-        processBuilder.command("/bin/bash", "-c", "mypy-suggest " + argument);
+        processBuilder.command("/bin/bash", "-c", "mypy-suggest " + path + " " +
+                String.valueOf(line));
         processBuilder.redirectErrorStream(true);
         processBuilder.redirectInput(new File("/dev/null"));
         try {
