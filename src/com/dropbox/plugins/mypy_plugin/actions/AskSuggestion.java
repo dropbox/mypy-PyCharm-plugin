@@ -61,6 +61,6 @@ final class AskSuggestion extends AnAction implements DumbAware {
                     "Plugin Exception:", Messages.getErrorIcon()));
             return;
         }
-        vf.refresh(true, false);
+        vf.refresh(false, false);
     }
 }
