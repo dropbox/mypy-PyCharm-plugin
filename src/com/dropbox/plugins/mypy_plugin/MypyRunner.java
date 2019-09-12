@@ -27,7 +27,7 @@ public final class MypyRunner {
     }
 
     @Nullable
-    MypyResult runMypyDaemon() {
+    MypyResult runMypyDaemon(@Nullable String command) {
         Process process;
         String directory = project.getBaseDir().getPath();
         MypyConfig config = MypyConfigLoader.findMypyConfig(project);
@@ -41,7 +41,13 @@ public final class MypyRunner {
         if (!extraPath.equals("")) {
             envProcess.put("PATH", envProcess.get("PATH") + File.pathSeparator + extraPath);
         }
-        String mypyCommand = config.getExecutableName();
+        String mypyCommand;
+        if (command != null) {
+            mypyCommand = command;
+        }
+        else {
+            mypyCommand = config.getExecutableName();
+        }
         processBuilder.command("/bin/bash", "-c", mypyCommand);
         processBuilder.redirectErrorStream(true);
         processBuilder.redirectInput(new File("/dev/null"));

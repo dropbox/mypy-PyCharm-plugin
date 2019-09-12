@@ -28,6 +28,7 @@ import com.intellij.ui.components.JBList;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import icons.MypyIcons;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -272,6 +273,10 @@ public final class MypyTerminal {
     }
 
     public void runMypyDaemonUIWrapper() {
+        runMypyDaemonUIWrapper(null);
+    }
+
+    public void runMypyDaemonUIWrapper(@Nullable String command) {
 
         setWaiting();
         FileDocumentManager.getInstance().saveAllDocuments();
@@ -279,7 +284,7 @@ public final class MypyTerminal {
         // it looks like UI is blocked on it otherwise.
         Executors.newSingleThreadExecutor().execute(() -> {
             Thread.currentThread().setName("MypyRunnerThread");
-            MypyResult result = MypyTerminal.this.runner.runMypyDaemon();
+            MypyResult result = MypyTerminal.this.runner.runMypyDaemon(command);
             if (result == null) return;
             // Access UI is prohibited from non-dispatch thread.
             ApplicationManager.getApplication().invokeLater(() -> {
