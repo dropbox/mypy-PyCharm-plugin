@@ -273,10 +273,10 @@ public final class MypyTerminal {
     }
 
     public void runMypyDaemonUIWrapper() {
-        runMypyDaemonUIWrapper(null);
+        runMypyDaemonUIWrapper(null, null);
     }
 
-    public void runMypyDaemonUIWrapper(@Nullable String command) {
+    public void runMypyDaemonUIWrapper(@Nullable String command, @Nullable VirtualFile vf) {
 
         setWaiting();
         FileDocumentManager.getInstance().saveAllDocuments();
@@ -284,7 +284,7 @@ public final class MypyTerminal {
         // it looks like UI is blocked on it otherwise.
         Executors.newSingleThreadExecutor().execute(() -> {
             Thread.currentThread().setName("MypyRunnerThread");
-            MypyResult result = MypyTerminal.this.runner.runMypyDaemon(command);
+            MypyResult result = MypyTerminal.this.runner.runMypyDaemon(command, vf);
             if (result == null) return;
             // Access UI is prohibited from non-dispatch thread.
             ApplicationManager.getApplication().invokeLater(() -> {
