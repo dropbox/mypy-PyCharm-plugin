@@ -28,7 +28,7 @@ final class AskSuggestion extends AnAction implements DumbAware {
         VirtualFile vf = e.getData(PlatformDataKeys.VIRTUAL_FILE);
         if (vf == null)
             return;
-        String command = "./mypy-suggest " + vf.getPath() + " " + String.valueOf(line + 1);
+        String command = "./mypy/mypy-suggest " + vf.getPath() + " " + String.valueOf(line + 1);
 
         Project project = e.getData(PlatformDataKeys.PROJECT);
         if (project == null) {
