@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class MypyConfigLoader {
-    final static String DEFAULT_MYPY_COMMAND = "dmypy start -- --follow-imports=error ; dmypy check .";
+    final static String DEFAULT_MYPY_COMMAND = "dmypy run -- --follow-imports=error .";
     final static String DEFAULT_MYPY_PATH_SUFFIX = "";
 
     public static MypyConfig findMypyConfig(Project project) {
