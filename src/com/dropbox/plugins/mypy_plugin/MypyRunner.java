@@ -6,6 +6,7 @@ import com.dropbox.plugins.mypy_plugin.model.MypyResult;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -27,7 +28,7 @@ public final class MypyRunner {
     }
 
     @Nullable
-    MypyResult runMypyDaemon() {
+    MypyResult runMypyDaemon(@Nullable String command, @Nullable VirtualFile vf) {
         Process process;
         String directory = project.getBaseDir().getPath();
         MypyConfig config = MypyConfigLoader.findMypyConfig(project);
@@ -41,7 +42,13 @@ public final class MypyRunner {
         if (!extraPath.equals("")) {
             envProcess.put("PATH", envProcess.get("PATH") + File.pathSeparator + extraPath);
         }
-        String mypyCommand = config.getExecutableName();
+        String mypyCommand;
+        if (command != null) {
+            mypyCommand = command;
+        }
+        else {
+            mypyCommand = config.getExecutableName();
+        }
         processBuilder.command("/bin/bash", "-c", mypyCommand);
         processBuilder.redirectErrorStream(true);
         processBuilder.redirectInput(new File("/dev/null"));
@@ -88,6 +95,9 @@ public final class MypyRunner {
                 }
             }
             process.waitFor();
+            if (vf != null) {
+                vf.refresh(false, false);
+            }
         } catch (IOException | InterruptedException e) {
             ApplicationManager.getApplication().invokeLater(() -> Messages.showMessageDialog(project, e.getMessage(),
                     "Plugin Exception:", Messages.getErrorIcon()));

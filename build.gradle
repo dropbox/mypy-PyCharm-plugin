@@ -2,6 +2,8 @@ plugins {
     id 'org.jetbrains.intellij' version '0.4.8'
 }
 
+sourceCompatibility = 1.8
+
 repositories {
     mavenCentral()
 }
@@ -10,9 +12,6 @@ sourceSets {
     main {
         java.srcDir 'src'
         resources.srcDir 'resources'
-    }
-    test {
-        java.srcDir 'test'
     }
 }
 
@@ -24,6 +23,7 @@ intellij {
     plugins = ['PythonCore:2019.1.191.7479.7']
     updateSinceUntilBuild false
     downloadSources true
+    buildSearchableOptions.enabled = false
 }
 
 dependencies {
