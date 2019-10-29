@@ -1,6 +1,6 @@
 <idea-plugin>
   <id>com.dropbox.plugins.mypy_plugin</id>
-  <name>Dropbox mypy plugin</name>
+  <name>Mypy (Official)</name>
   <version>0.3.0</version>
   <vendor url="https://github.com/dropbox/mypy-PyCharm-plugin">Dropbox Mypy Team</vendor>
 
