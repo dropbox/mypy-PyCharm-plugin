@@ -53,10 +53,10 @@ public final class MypyRunner {
             mypyCommand = config.getExecutableName();
         }
         if (isWindows) {
-            processBuilder.command("/bin/bash", "-c", mypyCommand);
+            processBuilder.command("cmd.exe", "/C", mypyCommand);
         }
         else {
-            processBuilder.command("cmd.exe", "/C", mypyCommand);
+            processBuilder.command("/bin/bash", "-c", mypyCommand);
         }
         processBuilder.redirectErrorStream(true);
         if (!isWindows) {
