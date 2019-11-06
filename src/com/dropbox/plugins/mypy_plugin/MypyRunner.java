@@ -37,10 +37,13 @@ public final class MypyRunner {
         Map<String, String> envProcess = processBuilder.environment();
         Map<String, String> env = System.getenv();
 
+        boolean isWindows = System.getProperty("os.name").startsWith("Windows");
+        String pathVar = isWindows ? "Path" : "PATH";
+
         envProcess.putAll(env);
         String extraPath = config.getPathSuffix();
         if (!extraPath.equals("")) {
-            envProcess.put("PATH", envProcess.get("PATH") + File.pathSeparator + extraPath);
+            envProcess.put(pathVar, envProcess.get(pathVar) + File.pathSeparator + extraPath);
         }
         String mypyCommand;
         if (command != null) {
@@ -49,9 +52,16 @@ public final class MypyRunner {
         else {
             mypyCommand = config.getExecutableName();
         }
-        processBuilder.command("/bin/bash", "-c", mypyCommand);
+        if (isWindows) {
+            processBuilder.command("cmd.exe", "/C", mypyCommand);
+        }
+        else {
+            processBuilder.command("/bin/bash", "-c", mypyCommand);
+        }
         processBuilder.redirectErrorStream(true);
-        processBuilder.redirectInput(new File("/dev/null"));
+        if (!isWindows) {
+            processBuilder.redirectInput(new File("/dev/null"));
+        }
         this.isRunning = true;
         try {
             process = processBuilder.directory(new File(directory)).start();
