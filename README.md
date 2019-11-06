@@ -57,13 +57,13 @@ Installation steps:
 
 Normally, plugin should not require any configuration steps. However,
 sometimes plugin cannot find `dmypy` command because it doesn't have
-the full environment. If the plugin says something like
-`/bin/bash: dmypy command not found` when you try to run mypy,
-then this is likely the cause. In this case right click in mypy
-terminal in PyCharm -> Configure plugin. Then enter the path where
-mypy is installed as PATH suffix. If you are using a virtual environment,
-this would look like `/my/project/bin`. If necessary, you can also
-configure mypy command to use your custom `.ini` file and flags.
+the full environment. If the plugin says something like `dmypy command not found`
+when you try to run mypy, then this is likely the cause. In this case right click
+in mypy terminal in PyCharm -> Configure plugin. Then enter the path where
+mypy is installed as PATH suffix. If you are using a virtual environment, this
+will look like `/my/project/bin` (or `C:\my\project\Scripts` if you are on Windows).
+If necessary, you can also configure mypy command to use your custom `.ini` file
+and flags.
 
 ## Usage
 
