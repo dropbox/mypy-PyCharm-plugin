@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.dropbox.plugins.mypy_plugin</id>
   <name>Mypy (Official)</name>
-  <version>0.3.0</version>
+  <version>0.3.1</version>
   <vendor url="https://github.com/dropbox/mypy-PyCharm-plugin">Dropbox Mypy Team</vendor>
 
   <description><![CDATA[
@@ -11,6 +11,8 @@
 
   <change-notes><![CDATA[
       <ul>
+        <li>Version 0.3.1 (November 2019) — Add basic Windows support. Update plugin display name.
+        Switch default command to dmypy run.
         <li>Version 0.3.0 (October 2019) — Minor bug fixes. Support reading configuration from mypy.ini.
         Experimental support of dmypy suggest. Convert plugin to Gradle.
         <li>Version 0.2.0 (November 2018) — Track error locations after editing.
