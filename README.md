@@ -15,10 +15,10 @@ by various flags and config settings.
 
 ## Installation
 
-_Note: The plugin is **not** available at the JetBrains Plugins
-Repository yet. You have to build and install the plugin manually.
-Follow issue [#7](https://github.com/dropbox/mypy-PyCharm-plugin/issues/7)
-for updates about the Plugins Repository._
+The plugin can be installed directly from
+[JetBrains plugin repository](https://plugins.jetbrains.com/plugin/13348-mypy-official-/)
+
+## Installing developer build
 
 Requirements for building the plugin:
 
