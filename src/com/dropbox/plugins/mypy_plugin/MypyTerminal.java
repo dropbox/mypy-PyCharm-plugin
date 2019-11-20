@@ -120,8 +120,8 @@ public final class MypyTerminal {
                 }
             }
         });
-        gotoItem.setIcon(AllIcons.Debugger.Actions.Force_run_to_cursor);
-        gotoItem.setDisabledIcon(AllIcons.Debugger.Actions.Force_run_to_cursor);
+        gotoItem.setIcon(AllIcons.Actions.RunToCursor);
+        gotoItem.setDisabledIcon(AllIcons.Actions.RunToCursor);
         popup.add(gotoItem);
         JBMenuItem copyItem = new JBMenuItem("Copy error text");
         copyItem.addActionListener(e -> {
